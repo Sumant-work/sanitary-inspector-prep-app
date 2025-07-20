@@ -1,8 +1,13 @@
 workflows:
   build-android:
     name: Build Android APK
+    instance_type: mac_mini_m1
+    max_build_duration: 30
     environment:
       flutter: stable
+      xcode: latest
+      vars:
+        PACKAGE_NAME: "com.sanitaryinspector.prep"
     scripts:
       - name: Install dependencies
         script: |
@@ -11,8 +16,8 @@ workflows:
         script: |
           flutter build apk --release
     artifacts:
-      - build/**/outputs/**/*.apk
+      - build/app/outputs/flutter-apk/app-release.apk
     publishing:
       email:
         recipients:
-          - sumantraj.work@gmail.com
+          - "sumantraj.work@gmail.com"
