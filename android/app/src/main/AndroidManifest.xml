@@ -19,6 +19,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
 
+        <!-- ADD THIS CRITICAL META-DATA TAG -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
