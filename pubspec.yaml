@@ -1,6 +1,5 @@
 name: sanitary_inspector_prep
 description: A Flutter app to prepare for Sanitary Inspector exams with notes, quizzes, and PYQs.
-
 publish_to: "none"
 
 version: 1.0.0+1
@@ -12,12 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
   permission_handler: ^11.0.0
-
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1  # Launcher icon support
 
 flutter:
   uses-material-design: true
@@ -25,10 +24,9 @@ flutter:
   assets:
     - assets/images/
     - assets/pdfs/
-    # Add PDF files/images later
+    - assets/icon/  # App icon folder
 
-  fonts:
-    # Optional: Add font config if needed
-    # - family: Roboto
-    #   fonts:
-    #     - asset: fonts/Roboto-Regular.ttf
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/app_icon.png"
