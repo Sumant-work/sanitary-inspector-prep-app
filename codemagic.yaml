@@ -1,1 +1,18 @@
-// Placeholder for codemagic.yaml
+workflows:
+  build-android:
+    name: Build Android APK
+    environment:
+      flutter: stable
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Build APK
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/**/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - sumantraj.work@gmail.com
