@@ -4,6 +4,13 @@ import 'screens/notes_screen.dart';
 import 'screens/quiz_screen.dart';
 import 'screens/live_test_screen.dart';
 import 'utils/permission_helper.dart';
+import 'package:sanitary_inspector_prep/utils/permission_helper.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PermissionHelper.checkAllPermissions();
+  runApp(SanitaryInspectorApp());
+}
 
 void main() => runApp(SanitaryInspectorApp());
 
