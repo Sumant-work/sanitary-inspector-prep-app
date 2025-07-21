@@ -49,6 +49,56 @@
       "category": "Food Safety",
       "difficulty": "Hard",
       "year": "2022"
+    },
+    {
+      "id": "q6",
+      "question": "Which vector is responsible for transmitting malaria?",
+      "options": ["Aedes mosquito", "Anopheles mosquito", "Culex mosquito", "Housefly"],
+      "correctAnswerIndex": 1,
+      "explanation": "Anopheles mosquitoes are the primary vectors for malaria transmission, carrying Plasmodium parasites.",
+      "category": "Disease Control",
+      "difficulty": "Medium",
+      "year": "2023"
+    },
+    {
+      "id": "q7",
+      "question": "What is the minimum distance required between a well and a septic tank?",
+      "options": ["10 meters", "15 meters", "30 meters", "50 meters"],
+      "correctAnswerIndex": 2,
+      "explanation": "A minimum distance of 30 meters should be maintained between a well and septic tank to prevent groundwater contamination.",
+      "category": "Sanitation",
+      "difficulty": "Hard",
+      "year": "2022"
+    },
+    {
+      "id": "q8",
+      "question": "Which act governs food safety in India?",
+      "options": ["Food Safety Act 2006", "Food Security Act 2013", "Food Safety and Standards Act 2006", "Public Health Act 1897"],
+      "correctAnswerIndex": 2,
+      "explanation": "The Food Safety and Standards Act 2006 is the primary legislation governing food safety in India.",
+      "category": "Health Laws",
+      "difficulty": "Medium",
+      "year": "2023"
+    },
+    {
+      "id": "q9",
+      "question": "What is the acceptable limit of fluoride in drinking water (mg/L)?",
+      "options": ["0.5-1.0", "1.0-1.5", "1.5-2.0", "2.0-2.5"],
+      "correctAnswerIndex": 1,
+      "explanation": "The acceptable limit of fluoride in drinking water is 1.0-1.5 mg/L according to WHO guidelines.",
+      "category": "Water Quality",
+      "difficulty": "Hard",
+      "year": "2022"
+    },
+    {
+      "id": "q10",
+      "question": "Which method is most effective for water disinfection?",
+      "options": ["Boiling", "Chlorination", "UV treatment", "All of the above"],
+      "correctAnswerIndex": 3,
+      "explanation": "All three methods - boiling, chlorination, and UV treatment - are effective for water disinfection, each with specific advantages.",
+      "category": "Water Quality",
+      "difficulty": "Easy",
+      "year": "2023"
     }
   ]
 }
