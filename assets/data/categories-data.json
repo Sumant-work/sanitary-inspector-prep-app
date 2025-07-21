@@ -1,0 +1,39 @@
+{
+  "categories": [
+    {
+      "id": "public_health",
+      "title": "Public Health",
+      "description": "Questions and notes related to public health concepts",
+      "icon": "🏥",
+      "color": "#1E88E5"
+    },
+    {
+      "id": "water_quality",
+      "title": "Water Quality",
+      "description": "Water quality standards and testing procedures",
+      "icon": "💧",
+      "color": "#2196F3"
+    },
+    {
+      "id": "food_safety",
+      "title": "Food Safety",
+      "description": "Food safety regulations and inspection protocols",
+      "icon": "🍽️",
+      "color": "#4CAF50"
+    },
+    {
+      "id": "environmental_health",
+      "title": "Environmental Health",
+      "description": "Environmental health assessment and management",
+      "icon": "🌍",
+      "color": "#8BC34A"
+    },
+    {
+      "id": "sanitation",
+      "title": "Sanitation",
+      "description": "Sanitation systems and waste management",
+      "icon": "🚰",
+      "color": "#00BCD4"
+    }
+  ]
+}
