@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../services/firebase_service.dart';
+import '../services/local_data_service.dart';
 import '../models/question.dart';
 import '../models/note.dart';
-import '../models/quiz.dart';
 
 class AppProvider with ChangeNotifier {
   // State variables
   bool _isDarkMode = false;
   bool _notificationsEnabled = true;
   bool _isLoading = false;
-  String? _currentUserId;
+  String _currentUserId = 'guest_user';
   
-  // Data from Firebase
+  // Data from local storage
   List<Question> _questions = [];
   List<Note> _notes = [];
-  List<Quiz> _quizzes = [];
-  List<Map<String, dynamic>> _pyqPapers = [];
   List<Map<String, dynamic>> _categories = [];
   List<Map<String, dynamic>> _quizHistory = [];
 
@@ -24,12 +20,10 @@ class AppProvider with ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   bool get notificationsEnabled => _notificationsEnabled;
   bool get isLoading => _isLoading;
-  String? get currentUserId => _currentUserId;
+  String get currentUserId => _currentUserId;
   
   List<Question> get questions => _questions;
   List<Note> get notes => _notes;
-  List<Quiz> get quizzes => _quizzes;
-  List<Map<String, dynamic>> get pyqPapers => _pyqPapers;
   List<Map<String, dynamic>> get categories => _categories;
   List<Map<String, dynamic>> get quizHistory => _quizHistory;
 
@@ -37,19 +31,19 @@ class AppProvider with ChangeNotifier {
     _initializeApp();
   }
 
-  // Initialize app with Firebase data
+  // Initialize app with local data
   Future<void> _initializeApp() async {
+    await LocalDataService.init();
     await _loadPreferences();
     await _generateGuestUserId();
-    await _loadAllFirebaseData();
+    await _loadAllLocalData();
   }
 
   // Load user preferences
   Future<void> _loadPreferences() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      _isDarkMode = prefs.getBool('darkMode') ?? false;
-      _notificationsEnabled = prefs.getBool('notifications') ?? true;
+      _isDarkMode = await LocalDataService.getPreference<bool>('darkMode', defaultValue: false) ?? false;
+      _notificationsEnabled = await LocalDataService.getPreference<bool>('notifications', defaultValue: true) ?? true;
       notifyListeners();
     } catch (e) {
       print('Error loading preferences: $e');
@@ -58,27 +52,28 @@ class AppProvider with ChangeNotifier {
 
   // Generate guest user ID
   Future<void> _generateGuestUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _currentUserId = prefs.getString('guestUserId') ?? 
-        'guest_${DateTime.now().millisecondsSinceEpoch}';
-    await prefs.setString('guestUserId', _currentUserId!);
+    String? existingUserId = await LocalDataService.getPreference<String>('guestUserId');
+    if (existingUserId == null) {
+      _currentUserId = 'guest_${DateTime.now().millisecondsSinceEpoch}';
+      await LocalDataService.savePreference('guestUserId', _currentUserId);
+    } else {
+      _currentUserId = existingUserId;
+    }
   }
 
-  // Load all data from Firebase
-  Future<void> _loadAllFirebaseData() async {
+  // Load all data from local assets
+  Future<void> _loadAllLocalData() async {
     setLoading(true);
     
     try {
       await Future.wait([
         loadQuestions(),
         loadNotes(),
-        loadQuizzes(),
-        loadPYQPapers(),
         loadCategories(),
-        if (_currentUserId != null) loadQuizHistory(),
+        loadQuizHistory(),
       ]);
     } catch (e) {
-      print('Error loading Firebase data: $e');
+      print('Error loading local data: $e');
     } finally {
       setLoading(false);
     }
@@ -87,16 +82,14 @@ class AppProvider with ChangeNotifier {
   // Toggle dark mode
   Future<void> toggleDarkMode() async {
     _isDarkMode = !_isDarkMode;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('darkMode', _isDarkMode);
+    await LocalDataService.savePreference('darkMode', _isDarkMode);
     notifyListeners();
   }
 
   // Toggle notifications
   Future<void> toggleNotifications() async {
     _notificationsEnabled = !_notificationsEnabled;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notifications', _notificationsEnabled);
+    await LocalDataService.savePreference('notifications', _notificationsEnabled);
     notifyListeners();
   }
 
@@ -106,69 +99,47 @@ class AppProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Load questions from Firebase
+  // Load questions from local data
   Future<void> loadQuestions({String? category}) async {
     try {
-      _questions = await FirebaseService.getQuestions(category: category);
+      _questions = await LocalDataService.getQuestions(category: category);
       notifyListeners();
     } catch (e) {
       print('Error loading questions: $e');
     }
   }
 
-  // Load notes from Firebase
+  // Load notes from local data
   Future<void> loadNotes({String? category}) async {
     try {
-      _notes = await FirebaseService.getNotes(category: category);
+      _notes = await LocalDataService.getNotes(category: category);
       notifyListeners();
     } catch (e) {
       print('Error loading notes: $e');
     }
   }
 
-  // Load quizzes from Firebase
-  Future<void> loadQuizzes({String? type}) async {
-    try {
-      _quizzes = await FirebaseService.getQuizzes(type: type);
-      notifyListeners();
-    } catch (e) {
-      print('Error loading quizzes: $e');
-    }
-  }
-
-  // Load PYQ papers from Firebase
-  Future<void> loadPYQPapers() async {
-    try {
-      _pyqPapers = await FirebaseService.getPYQPapers();
-      notifyListeners();
-    } catch (e) {
-      print('Error loading PYQ papers: $e');
-    }
-  }
-
-  // Load categories from Firebase
+  // Load categories from local data
   Future<void> loadCategories() async {
     try {
-      _categories = await FirebaseService.getCategories('all');
+      _categories = await LocalDataService.getCategories();
       notifyListeners();
     } catch (e) {
       print('Error loading categories: $e');
     }
   }
 
-  // Load quiz history from Firebase
+  // Load quiz history from local storage
   Future<void> loadQuizHistory() async {
-    if (_currentUserId == null) return;
-    
     try {
-      _quizHistory = await FirebaseService.getUserScores(_currentUserId!);
+      _quizHistory = await LocalDataService.getUserScores(_currentUserId);
       notifyListeners();
     } catch (e) {
       print('Error loading quiz history: $e');
     }
   }
 
-  // Save quiz score to Firebase
+  // Save quiz score to local storage
   Future<void> saveQuizScore({
     required String quizId,
     required int score,
@@ -176,11 +147,9 @@ class AppProvider with ChangeNotifier {
     required int timeTaken,
     required List<Map<String, dynamic>> answers,
   }) async {
-    if (_currentUserId == null) return;
-
     try {
-      await FirebaseService.saveQuizScore(
-        userId: _currentUserId!,
+      await LocalDataService.saveQuizScore(
+        userId: _currentUserId,
         quizId: quizId,
         score: score,
         totalQuestions: totalQuestions,
@@ -205,9 +174,9 @@ class AppProvider with ChangeNotifier {
     return _notes.where((n) => n.category == category).toList();
   }
 
-  // Refresh all data from Firebase
+  // Refresh all data
   Future<void> refreshAllData() async {
-    await _loadAllFirebaseData();
+    await _loadAllLocalData();
   }
 
   // Get user statistics
