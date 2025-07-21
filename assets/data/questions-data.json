@@ -1,0 +1,206 @@
+{
+  "categories": [
+    {
+      "id": "general_knowledge",
+      "title": "General Knowledge",
+      "description": "Basic general knowledge questions for sanitary inspector exam",
+      "icon": "public",
+      "color": "#2196F3"
+    },
+    {
+      "id": "health_sanitation",
+      "title": "Health & Sanitation",
+      "description": "Health, sanitation, and hygiene related topics",
+      "icon": "local_hospital",
+      "color": "#4CAF50"
+    },
+    {
+      "id": "environmental_science",
+      "title": "Environmental Science",
+      "description": "Environmental protection and ecology questions",
+      "icon": "eco",
+      "color": "#8BC34A"
+    }
+  ],
+  "questions": [
+    {
+      "id": "gk_001",
+      "category": "general_knowledge",
+      "question": "What is the full form of WHO?",
+      "options": [
+        "World Health Organization",
+        "World Horse Organization",
+        "Wildlife Health Organization",
+        "World Housing Organization"
+      ],
+      "correctAnswer": 0,
+      "explanation": "WHO stands for World Health Organization, a specialized agency of the United Nations responsible for international public health.",
+      "difficulty": "easy",
+      "year": "2023"
+    },
+    {
+      "id": "gk_002",
+      "category": "general_knowledge",
+      "question": "Which Indian state has the highest literacy rate?",
+      "options": [
+        "Kerala",
+        "Maharashtra",
+        "Tamil Nadu",
+        "Gujarat"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Kerala has the highest literacy rate in India at approximately 93.91% according to the 2011 census.",
+      "difficulty": "medium",
+      "year": "2022"
+    },
+    {
+      "id": "hs_001",
+      "category": "health_sanitation",
+      "question": "Which disease is caused by contaminated water?",
+      "options": [
+        "Malaria",
+        "Cholera",
+        "Tuberculosis",
+        "Diabetes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Cholera is a waterborne disease caused by ingesting contaminated water or food with Vibrio cholerae bacteria.",
+      "difficulty": "easy",
+      "year": "2023"
+    },
+    {
+      "id": "hs_002",
+      "category": "health_sanitation",
+      "question": "What is the ideal pH range for drinking water?",
+      "options": [
+        "5.5 - 6.5",
+        "6.5 - 8.5",
+        "8.5 - 9.5",
+        "9.5 - 10.5"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The ideal pH range for drinking water is 6.5 - 8.5 according to WHO guidelines for safe drinking water.",
+      "difficulty": "medium",
+      "year": "2023"
+    },
+    {
+      "id": "hs_003",
+      "category": "health_sanitation",
+      "question": "Vector control is important for preventing which type of diseases?",
+      "options": [
+        "Genetic diseases",
+        "Vector-borne diseases",
+        "Nutritional diseases",
+        "Occupational diseases"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Vector control helps prevent vector-borne diseases like malaria, dengue, chikungunya which are transmitted by insects.",
+      "difficulty": "easy",
+      "year": "2022"
+    },
+    {
+      "id": "hs_004",
+      "category": "health_sanitation",
+      "question": "What is the recommended minimum distance between a well and a septic tank?",
+      "options": [
+        "10 meters",
+        "20 meters",
+        "30 meters",
+        "50 meters"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The recommended minimum distance between a well and septic tank is 30 meters to prevent groundwater contamination.",
+      "difficulty": "medium",
+      "year": "2023"
+    },
+    {
+      "id": "env_001",
+      "category": "environmental_science",
+      "question": "Which gas is primarily responsible for global warming?",
+      "options": [
+        "Oxygen",
+        "Nitrogen",
+        "Carbon Dioxide",
+        "Hydrogen"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Carbon Dioxide (CO2) is the primary greenhouse gas responsible for global warming and climate change.",
+      "difficulty": "easy",
+      "year": "2023"
+    },
+    {
+      "id": "env_002",
+      "category": "environmental_science",
+      "question": "What is the process of converting waste organic matter into useful compost called?",
+      "options": [
+        "Incineration",
+        "Composting",
+        "Landfilling",
+        "Recycling"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Composting is the natural process of decomposition that turns organic waste into nutrient-rich compost.",
+      "difficulty": "easy",
+      "year": "2022"
+    },
+    {
+      "id": "env_003",
+      "category": "environmental_science",
+      "question": "Which of the following is NOT a renewable energy source?",
+      "options": [
+        "Solar energy",
+        "Wind energy",
+        "Natural gas",
+        "Hydroelectric energy"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Natural gas is a fossil fuel and therefore not renewable. Solar, wind, and hydroelectric are all renewable energy sources.",
+      "difficulty": "medium",
+      "year": "2023"
+    },
+    {
+      "id": "gk_003",
+      "category": "general_knowledge",
+      "question": "Which article of the Indian Constitution deals with Right to Education?",
+      "options": [
+        "Article 21",
+        "Article 21A",
+        "Article 22",
+        "Article 19"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Article 21A of the Indian Constitution provides for the Right to Education for children aged 6-14 years.",
+      "difficulty": "hard",
+      "year": "2023"
+    }
+  ],
+  "quiz_sets": [
+    {
+      "id": "gk_basic",
+      "title": "General Knowledge - Basic",
+      "category": "general_knowledge",
+      "difficulty": "easy",
+      "duration": 10,
+      "questions": ["gk_001", "gk_002"],
+      "description": "Basic general knowledge questions for beginners"
+    },
+    {
+      "id": "health_essential",
+      "title": "Health & Sanitation Essentials",
+      "category": "health_sanitation",
+      "difficulty": "medium",
+      "duration": 15,
+      "questions": ["hs_001", "hs_002", "hs_003", "hs_004"],
+      "description": "Essential health and sanitation concepts"
+    },
+    {
+      "id": "env_basics",
+      "title": "Environmental Science Basics",
+      "category": "environmental_science",
+      "difficulty": "easy",
+      "duration": 12,
+      "questions": ["env_001", "env_002", "env_003"],
+      "description": "Basic environmental science concepts"
+    }
+  ]
+}
