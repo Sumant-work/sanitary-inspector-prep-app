@@ -1,105 +1,40 @@
 {
-  "categories": [
-    {
-      "id": "public_health",
-      "title": "Public Health",
-      "icon": "health_and_safety",
-      "color": "#4CAF50",
-      "description": "Fundamentals of public health and community healthcare"
-    },
-    {
-      "id": "sanitation",
-      "title": "Sanitation & Hygiene",
-      "icon": "clean_hands",
-      "color": "#2196F3",
-      "description": "Sanitation practices, waste management, and hygiene protocols"
-    },
-    {
-      "id": "water_quality",
-      "title": "Water Quality",
-      "icon": "water_drop",
-      "color": "#00BCD4",
-      "description": "Water testing, quality standards, and treatment methods"
-    },
-    {
-      "id": "food_safety",
-      "title": "Food Safety",
-      "icon": "restaurant",
-      "color": "#FF9800",
-      "description": "Food handling, safety standards, and inspection procedures"
-    },
-    {
-      "id": "environmental_health",
-      "title": "Environmental Health",
-      "icon": "eco",
-      "color": "#8BC34A",
-      "description": "Environmental factors affecting public health"
-    }
-  ],
   "notes": [
     {
-      "id": "ph_001",
-      "category": "public_health",
-      "title": "Introduction to Public Health",
-      "content": "Public health is the science and art of preventing disease, prolonging life, and promoting health through the organized efforts of society.\n\n**Key Principles:**\n• Prevention is better than cure\n• Health promotion for entire populations\n• Evidence-based interventions\n• Health equity and social justice\n\n**Core Functions:**\n1. Assessment of population health status\n2. Policy development\n3. Assurance of health services\n\n**Determinants of Health:**\n• Social and economic environment\n• Physical environment\n• Individual characteristics and behaviors\n• Health services",
-      "lastUpdated": "2024-01-15",
-      "readTime": "5 min"
-    },
-    {
-      "id": "ph_002",
-      "category": "public_health",
-      "title": "Epidemiology Basics",
-      "content": "Epidemiology is the study of how diseases spread and can be controlled in populations.\n\n**Types of Studies:**\n• Descriptive studies (what, when, where, who)\n• Analytical studies (why and how)\n• Experimental studies (interventions)\n\n**Disease Transmission:**\n1. **Direct transmission:** Person to person contact\n2. **Indirect transmission:** Through vectors, vehicles, or airborne\n\n**Prevention Levels:**\n• **Primary:** Preventing disease occurrence\n• **Secondary:** Early detection and treatment\n• **Tertiary:** Managing complications\n\n**Important Terms:**\n• Incidence: New cases in a time period\n• Prevalence: Total cases at a point in time\n• Mortality rate: Deaths per population\n• Morbidity: Illness in a population",
-      "lastUpdated": "2024-01-14",
-      "readTime": "7 min"
-    },
-    {
-      "id": "san_001",
-      "category": "sanitation",
-      "title": "Basic Sanitation Principles",
-      "content": "Sanitation refers to the provision of facilities and services for the safe disposal of human urine and feces.\n\n**Key Components:**\n1. **Excreta Management**\n   • Safe collection and disposal\n   • Treatment of sewage\n   • Prevention of contamination\n\n2. **Solid Waste Management**\n   • Collection and segregation\n   • Treatment and disposal\n   • Recycling and composting\n\n3. **Wastewater Management**\n   • Collection systems\n   • Treatment processes\n   • Safe disposal methods\n\n**Sanitation Chain:**\nCapture → Containment → Transport → Treatment → Safe End Use/Disposal\n\n**Health Benefits:**\n• Reduces diarrheal diseases\n• Prevents cholera and typhoid\n• Improves nutrition\n• Enhances dignity and safety",
-      "lastUpdated": "2024-01-13",
-      "readTime": "6 min"
-    },
-    {
-      "id": "san_002",
-      "category": "sanitation",
-      "title": "Waste Management Systems",
-      "content": "Effective waste management is crucial for maintaining public health and environmental quality.\n\n**Types of Waste:**\n1. **Municipal Solid Waste (MSW)**\n   • Household waste\n   • Commercial waste\n   • Institutional waste\n\n2. **Hazardous Waste**\n   • Medical waste\n   • Chemical waste\n   • Electronic waste\n\n**Waste Management Hierarchy:**\n1. **Reduce:** Minimize waste generation\n2. **Reuse:** Use items multiple times\n3. **Recycle:** Process materials for new products\n4. **Recovery:** Energy recovery from waste\n5. **Disposal:** Safe final disposal\n\n**Collection Methods:**\n• Door-to-door collection\n• Community bins\n• Transfer stations\n• Segregation at source\n\n**Treatment Technologies:**\n• Composting (organic waste)\n• Incineration (with energy recovery)\n• Landfilling (properly engineered)\n• Anaerobic digestion",
-      "lastUpdated": "2024-01-12",
-      "readTime": "8 min"
-    },
-    {
-      "id": "wq_001",
-      "category": "water_quality",
+      "id": "n1",
       "title": "Water Quality Standards",
-      "content": "Water quality standards ensure that water is safe for intended uses including drinking, bathing, and irrigation.\n\n**Physical Parameters:**\n• **Turbidity:** < 1 NTU (Drinking water)\n• **Color:** < 15 TCU\n• **Odor and Taste:** Acceptable\n• **Temperature:** Ambient ± 3°C\n\n**Chemical Parameters:**\n• **pH:** 6.5 - 8.5\n• **Total Dissolved Solids (TDS):** < 500 mg/L\n• **Chloride:** < 250 mg/L\n• **Fluoride:** 0.6 - 1.2 mg/L\n• **Iron:** < 0.3 mg/L\n• **Nitrate:** < 45 mg/L\n\n**Biological Parameters:**\n• **Total Coliform:** 0 CFU/100mL\n• **E. coli:** 0 CFU/100mL\n• **Total Plate Count:** < 500 CFU/mL\n\n**Heavy Metals:**\n• **Arsenic:** < 0.01 mg/L\n• **Lead:** < 0.01 mg/L\n• **Mercury:** < 0.001 mg/L\n• **Cadmium:** < 0.003 mg/L",
-      "lastUpdated": "2024-01-11",
-      "readTime": "6 min"
+      "content": "Water quality is essential for public health. The WHO guidelines for drinking water quality provide a framework for ensuring safe drinking water supply systems.\n\nKey Parameters:\n1. Physical: Turbidity, Color, Taste, Odor\n2. Chemical: pH (6.5-8.5), Total Dissolved Solids, Heavy metals\n3. Microbiological: E. coli, Coliform bacteria\n4. Radiological: Gross alpha, Gross beta activity\n\nRegular monitoring and testing ensure water safety for human consumption.",
+      "category": "Water Quality",
+      "priority": 1,
+      "tags": ["water", "health", "standards", "WHO"],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z",
+      "isBookmarked": false,
+      "readingProgress": 0
     },
     {
-      "id": "wq_002",
-      "category": "water_quality",
-      "title": "Water Treatment Methods",
-      "content": "Water treatment removes contaminants to make water suitable for specific uses.\n\n**Conventional Treatment Process:**\n\n1. **Screening:** Remove large debris\n2. **Coagulation:** Add chemicals to bind particles\n3. **Flocculation:** Gentle mixing for particle aggregation\n4. **Sedimentation:** Allow particles to settle\n5. **Filtration:** Remove remaining particles\n6. **Disinfection:** Kill pathogens\n\n**Disinfection Methods:**\n• **Chlorination:** Most common, effective against bacteria and viruses\n• **UV Treatment:** No chemical residuals, effective against all pathogens\n• **Ozonation:** Strong oxidant, no harmful byproducts\n• **Boiling:** Simple household method\n\n**Advanced Treatment:**\n• **Reverse Osmosis:** Removes dissolved salts\n• **Ion Exchange:** Removes specific ions\n• **Activated Carbon:** Removes organic compounds\n• **Membrane Filtration:** Various pore sizes\n\n**Household Treatment:**\n• Boiling (most reliable)\n• Water purification tablets\n• Solar disinfection (SODIS)\n• Ceramic filters",
-      "lastUpdated": "2024-01-10",
-      "readTime": "9 min"
+      "id": "n2",
+      "title": "Food Safety Guidelines",
+      "content": "Food safety is crucial for preventing foodborne illnesses. Key principles include:\n\n1. Clean: Wash hands and surfaces often\n2. Separate: Don't cross-contaminate\n3. Cook: Cook to proper temperatures\n4. Chill: Refrigerate promptly\n\nHACCP System:\n- Hazard Analysis\n- Critical Control Points identification\n- Establish critical limits\n- Monitor procedures\n- Corrective actions\n- Verification\n- Record keeping\n\nProper implementation prevents foodborne diseases and ensures public health.",
+      "category": "Food Safety",
+      "priority": 1,
+      "tags": ["food", "safety", "hygiene", "HACCP"],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z",
+      "isBookmarked": false,
+      "readingProgress": 0
     },
     {
-      "id": "fs_001",
-      "category": "food_safety",
-      "title": "Food Safety Fundamentals",
-      "content": "Food safety ensures that food is safe for consumption and free from contamination.\n\n**Foodborne Illnesses:**\n• **Bacterial:** Salmonella, E. coli, Campylobacter\n• **Viral:** Norovirus, Hepatitis A\n• **Parasitic:** Giardia, Cryptosporidium\n• **Chemical:** Pesticides, heavy metals\n\n**Sources of Contamination:**\n1. **Primary:** During production (farms, processing)\n2. **Secondary:** During handling, storage, preparation\n3. **Cross-contamination:** Transfer between foods\n\n**HACCP Principles:**\n1. Conduct hazard analysis\n2. Determine Critical Control Points (CCPs)\n3. Establish critical limits\n4. Establish monitoring procedures\n5. Establish corrective actions\n6. Establish verification procedures\n7. Establish record keeping\n\n**Temperature Control:**\n• **Danger Zone:** 5°C - 60°C (bacteria multiply rapidly)\n• **Cold Storage:** < 4°C\n• **Hot Holding:** > 60°C\n• **Cooking Temperatures:** Vary by food type\n\n**Personal Hygiene:**\n• Regular handwashing\n• Clean clothing and aprons\n• Hair restraints\n• No jewelry\n• Health monitoring",
-      "lastUpdated": "2024-01-09",
-      "readTime": "7 min"
-    },
-    {
-      "id": "eh_001",
-      "category": "environmental_health",
-      "title": "Environmental Health Overview",
-      "content": "Environmental health addresses physical, chemical, and biological factors that affect human health.\n\n**Key Areas:**\n\n1. **Air Quality**\n   • Ambient air pollution\n   • Indoor air quality\n   • Occupational exposure\n\n2. **Water Resources**\n   • Surface water protection\n   • Groundwater management\n   • Watershed protection\n\n3. **Soil Contamination**\n   • Industrial pollutants\n   • Agricultural chemicals\n   • Heavy metals\n\n4. **Waste Management**\n   • Municipal solid waste\n   • Hazardous waste\n   • Electronic waste\n\n**Health Impact Assessment:**\n• Identify environmental hazards\n• Assess exposure pathways\n• Evaluate health risks\n• Recommend mitigation measures\n\n**Environmental Monitoring:**\n• Regular sampling and testing\n• Quality assurance protocols\n• Data analysis and reporting\n• Public health recommendations\n\n**Climate Change Impacts:**\n• Heat-related illnesses\n• Vector-borne diseases\n• Water scarcity\n• Food security\n• Extreme weather events",
-      "lastUpdated": "2024-01-08",
-      "readTime": "8 min"
+      "id": "n3",
+      "title": "Public Health Fundamentals",
+      "content": "Public health focuses on protecting and improving the health of people and their communities through:\n\n1. Disease Prevention\n2. Health Promotion\n3. Health Protection\n4. Health Services\n\nCore Functions:\n- Assessment: Monitor health status\n- Policy Development: Develop policies\n- Assurance: Ensure services are provided\n\nPublic health interventions include vaccination programs, sanitation systems, and health education campaigns.",
+      "category": "Public Health",
+      "priority": 2,
+      "tags": ["public health", "prevention", "community", "health promotion"],
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z",
+      "isBookmarked": false,
+      "readingProgress": 0
     }
   ]
 }
