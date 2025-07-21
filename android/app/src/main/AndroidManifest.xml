@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
 
-        <!-- CRITICAL: Add Flutter v2 embedding meta-data -->
+        <!-- CRITICAL: Flutter v2 embedding meta-data -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
