@@ -1,197 +1,225 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/firebase_service.dart';
+import '../models/question.dart';
+import '../models/note.dart';
+import '../models/quiz.dart';
 
-/// App-wide state management provider
 class AppProvider with ChangeNotifier {
-  // App state
-  bool _isFirstLaunch = true;
-  bool _permissionsGranted = false;
-  String _userName = '';
-  
-  // Quiz state
-  Map<String, int> _categoryScores = {};
-  int _totalQuestionsAnswered = 0;
-  int _totalCorrectAnswers = 0;
-  
-  // Progress tracking
-  List<String> _completedPyqs = [];
-  List<String> _bookmarkedNotes = [];
-  Set<String> _completedQuizzes = {};
-  
-  // Preferences
-  bool _darkMode = false;
+  // State variables
+  bool _isDarkMode = false;
   bool _notificationsEnabled = true;
+  bool _isLoading = false;
+  String? _currentUserId;
   
+  // Data from Firebase
+  List<Question> _questions = [];
+  List<Note> _notes = [];
+  List<Quiz> _quizzes = [];
+  List<Map<String, dynamic>> _pyqPapers = [];
+  List<Map<String, dynamic>> _categories = [];
+  List<Map<String, dynamic>> _quizHistory = [];
+
   // Getters
-  bool get isFirstLaunch => _isFirstLaunch;
-  bool get permissionsGranted => _permissionsGranted;
-  String get userName => _userName;
-  Map<String, int> get categoryScores => _categoryScores;
-  int get totalQuestionsAnswered => _totalQuestionsAnswered;
-  int get totalCorrectAnswers => _totalCorrectAnswers;
-  List<String> get completedPyqs => _completedPyqs;
-  List<String> get bookmarkedNotes => _bookmarkedNotes;
-  Set<String> get completedQuizzes => _completedQuizzes;
-  bool get darkMode => _darkMode;
+  bool get isDarkMode => _isDarkMode;
   bool get notificationsEnabled => _notificationsEnabled;
+  bool get isLoading => _isLoading;
+  String? get currentUserId => _currentUserId;
   
-  // Calculated properties
-  double get overallAccuracy {
-    if (_totalQuestionsAnswered == 0) return 0.0;
-    return (_totalCorrectAnswers / _totalQuestionsAnswered) * 100;
-  }
-  
-  int get totalScore => _categoryScores.values.fold(0, (sum, score) => sum + score);
+  List<Question> get questions => _questions;
+  List<Note> get notes => _notes;
+  List<Quiz> get quizzes => _quizzes;
+  List<Map<String, dynamic>> get pyqPapers => _pyqPapers;
+  List<Map<String, dynamic>> get categories => _categories;
+  List<Map<String, dynamic>> get quizHistory => _quizHistory;
 
-  /// Initialize app data from shared preferences
-  Future<void> initializeApp() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    _isFirstLaunch = prefs.getBool('first_launch') ?? true;
-    _permissionsGranted = prefs.getBool('permissions_granted') ?? false;
-    _userName = prefs.getString('user_name') ?? '';
-    _totalQuestionsAnswered = prefs.getInt('total_questions') ?? 0;
-    _totalCorrectAnswers = prefs.getInt('total_correct') ?? 0;
-    _darkMode = prefs.getBool('dark_mode') ?? false;
-    _notificationsEnabled = prefs.getBool('notifications_enabled') ?? true;
-    
-    // Load category scores
-    _categoryScores = {};
-    final scoreKeys = ['general_knowledge', 'health_sanitation', 'environmental'];
-    for (String key in scoreKeys) {
-      _categoryScores[key] = prefs.getInt('score_$key') ?? 0;
-    }
-    
-    // Load completed items
-    _completedPyqs = prefs.getStringList('completed_pyqs') ?? [];
-    _bookmarkedNotes = prefs.getStringList('bookmarked_notes') ?? [];
-    _completedQuizzes = (prefs.getStringList('completed_quizzes') ?? []).toSet();
-    
-    notifyListeners();
+  AppProvider() {
+    _initializeApp();
   }
 
-  /// Set first launch completed
-  Future<void> setFirstLaunchCompleted() async {
-    _isFirstLaunch = false;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('first_launch', false);
-    notifyListeners();
+  // Initialize app with Firebase data
+  Future<void> _initializeApp() async {
+    await _loadPreferences();
+    await _generateGuestUserId();
+    await _loadAllFirebaseData();
   }
 
-  /// Update permissions status
-  Future<void> setPermissionsGranted(bool granted) async {
-    _permissionsGranted = granted;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('permissions_granted', granted);
-    notifyListeners();
-  }
-
-  /// Set user name
-  Future<void> setUserName(String name) async {
-    _userName = name;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_name', name);
-    notifyListeners();
-  }
-
-  /// Update quiz score for a category
-  Future<void> updateQuizScore(String category, int score, int totalQuestions) async {
-    // Update category score
-    _categoryScores[category] = (_categoryScores[category] ?? 0) + score;
-    
-    // Update overall stats
-    _totalQuestionsAnswered += totalQuestions;
-    _totalCorrectAnswers += score;
-    
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('score_$category', _categoryScores[category]!);
-    await prefs.setInt('total_questions', _totalQuestionsAnswered);
-    await prefs.setInt('total_correct', _totalCorrectAnswers);
-    
-    notifyListeners();
-  }
-
-  /// Mark PYQ as completed
-  Future<void> markPyqCompleted(String pyqId) async {
-    if (!_completedPyqs.contains(pyqId)) {
-      _completedPyqs.add(pyqId);
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setStringList('completed_pyqs', _completedPyqs);
+  // Load user preferences
+  Future<void> _loadPreferences() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      _isDarkMode = prefs.getBool('darkMode') ?? false;
+      _notificationsEnabled = prefs.getBool('notifications') ?? true;
       notifyListeners();
+    } catch (e) {
+      print('Error loading preferences: $e');
     }
   }
 
-  /// Toggle bookmark for a note
-  Future<void> toggleNoteBookmark(String noteId) async {
-    if (_bookmarkedNotes.contains(noteId)) {
-      _bookmarkedNotes.remove(noteId);
-    } else {
-      _bookmarkedNotes.add(noteId);
-    }
+  // Generate guest user ID
+  Future<void> _generateGuestUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _currentUserId = prefs.getString('guestUserId') ?? 
+        'guest_${DateTime.now().millisecondsSinceEpoch}';
+    await prefs.setString('guestUserId', _currentUserId!);
+  }
+
+  // Load all data from Firebase
+  Future<void> _loadAllFirebaseData() async {
+    setLoading(true);
     
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('bookmarked_notes', _bookmarkedNotes);
-    notifyListeners();
+    try {
+      await Future.wait([
+        loadQuestions(),
+        loadNotes(),
+        loadQuizzes(),
+        loadPYQPapers(),
+        loadCategories(),
+        if (_currentUserId != null) loadQuizHistory(),
+      ]);
+    } catch (e) {
+      print('Error loading Firebase data: $e');
+    } finally {
+      setLoading(false);
+    }
   }
 
-  /// Mark quiz as completed
-  Future<void> markQuizCompleted(String quizId) async {
-    _completedQuizzes.add(quizId);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('completed_quizzes', _completedQuizzes.toList());
-    notifyListeners();
-  }
-
-  /// Toggle dark mode
+  // Toggle dark mode
   Future<void> toggleDarkMode() async {
-    _darkMode = !_darkMode;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('dark_mode', _darkMode);
+    _isDarkMode = !_isDarkMode;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('darkMode', _isDarkMode);
     notifyListeners();
   }
 
-  /// Toggle notifications
+  // Toggle notifications
   Future<void> toggleNotifications() async {
     _notificationsEnabled = !_notificationsEnabled;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notifications_enabled', _notificationsEnabled);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('notifications', _notificationsEnabled);
     notifyListeners();
   }
 
-  /// Reset all data (for testing or user request)
-  Future<void> resetAllData() async {
-    _categoryScores.clear();
-    _totalQuestionsAnswered = 0;
-    _totalCorrectAnswers = 0;
-    _completedPyqs.clear();
-    _bookmarkedNotes.clear();
-    _completedQuizzes.clear();
-    
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-    
+  // Set loading state
+  void setLoading(bool loading) {
+    _isLoading = loading;
     notifyListeners();
   }
 
-  /// Get progress for specific category
-  double getCategoryProgress(String category) {
-    // This would calculate based on completed content for each category
-    // For demo, using a simple calculation
-    final score = _categoryScores[category] ?? 0;
-    return (score / 100).clamp(0.0, 1.0); // Normalize to 0-1
+  // Load questions from Firebase
+  Future<void> loadQuestions({String? category}) async {
+    try {
+      _questions = await FirebaseService.getQuestions(category: category);
+      notifyListeners();
+    } catch (e) {
+      print('Error loading questions: $e');
+    }
   }
 
-  /// Get study statistics
-  Map<String, dynamic> getStudyStatistics() {
+  // Load notes from Firebase
+  Future<void> loadNotes({String? category}) async {
+    try {
+      _notes = await FirebaseService.getNotes(category: category);
+      notifyListeners();
+    } catch (e) {
+      print('Error loading notes: $e');
+    }
+  }
+
+  // Load quizzes from Firebase
+  Future<void> loadQuizzes({String? type}) async {
+    try {
+      _quizzes = await FirebaseService.getQuizzes(type: type);
+      notifyListeners();
+    } catch (e) {
+      print('Error loading quizzes: $e');
+    }
+  }
+
+  // Load PYQ papers from Firebase
+  Future<void> loadPYQPapers() async {
+    try {
+      _pyqPapers = await FirebaseService.getPYQPapers();
+      notifyListeners();
+    } catch (e) {
+      print('Error loading PYQ papers: $e');
+    }
+  }
+
+  // Load categories from Firebase
+  Future<void> loadCategories() async {
+    try {
+      _categories = await FirebaseService.getCategories('all');
+      notifyListeners();
+    } catch (e) {
+      print('Error loading categories: $e');
+    }
+  }
+
+  // Load quiz history from Firebase
+  Future<void> loadQuizHistory() async {
+    if (_currentUserId == null) return;
+    
+    try {
+      _quizHistory = await FirebaseService.getUserScores(_currentUserId!);
+      notifyListeners();
+    } catch (e) {
+      print('Error loading quiz history: $e');
+    }
+  }
+
+  // Save quiz score to Firebase
+  Future<void> saveQuizScore({
+    required String quizId,
+    required int score,
+    required int totalQuestions,
+    required int timeTaken,
+    required List<Map<String, dynamic>> answers,
+  }) async {
+    if (_currentUserId == null) return;
+
+    try {
+      await FirebaseService.saveQuizScore(
+        userId: _currentUserId!,
+        quizId: quizId,
+        score: score,
+        totalQuestions: totalQuestions,
+        timeTaken: timeTaken,
+        answers: answers,
+      );
+      
+      // Reload quiz history
+      await loadQuizHistory();
+    } catch (e) {
+      print('Error saving quiz score: $e');
+    }
+  }
+
+  // Get questions by category
+  List<Question> getQuestionsByCategory(String category) {
+    return _questions.where((q) => q.category == category).toList();
+  }
+
+  // Get notes by category
+  List<Note> getNotesByCategory(String category) {
+    return _notes.where((n) => n.category == category).toList();
+  }
+
+  // Refresh all data from Firebase
+  Future<void> refreshAllData() async {
+    await _loadAllFirebaseData();
+  }
+
+  // Get user statistics
+  Map<String, int> getUserStats() {
+    int totalQuizzes = _quizHistory.length;
+    int totalScore = _quizHistory.fold(0, (sum, quiz) => sum + (quiz['score'] as int));
+    int averageScore = totalQuizzes > 0 ? (totalScore / totalQuizzes).round() : 0;
+    
     return {
-      'totalQuestions': _totalQuestionsAnswered,
-      'correctAnswers': _totalCorrectAnswers,
-      'accuracy': overallAccuracy,
-      'completedPyqs': _completedPyqs.length,
-      'bookmarkedNotes': _bookmarkedNotes.length,
-      'completedQuizzes': _completedQuizzes.length,
+      'totalQuizzes': totalQuizzes,
+      'averageScore': averageScore,
       'totalScore': totalScore,
-      'categoryScores': Map.from(_categoryScores),
     };
   }
 }
