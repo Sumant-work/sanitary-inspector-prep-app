@@ -4,7 +4,13 @@
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Scoped storage and media access for Android 13+ -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- For older Android versions (maxSdk 32) -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -19,7 +25,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
 
-        <!-- CRITICAL: Enable Flutter v2 embedding -->
+        <!-- Enable Flutter v2 embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
@@ -42,6 +48,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 </manifest>
