@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Note {
   final String id;
   final String title;
@@ -29,25 +27,7 @@ class Note {
     this.readingProgress = 0,
   });
 
-  // Create from Firestore document
-  factory Note.fromFirestore(Map<String, dynamic> data, String id) {
-    return Note(
-      id: id,
-      title: data['title'] ?? '',
-      content: data['content'] ?? '',
-      category: data['category'] ?? '',
-      imageUrl: data['imageUrl'],
-      pdfUrl: data['pdfUrl'],
-      priority: data['priority'] ?? 1,
-      createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      updatedAt: (data['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      tags: List<String>.from(data['tags'] ?? []),
-      isBookmarked: data['isBookmarked'] ?? false,
-      readingProgress: data['readingProgress'] ?? 0,
-    );
-  }
-
-  // Create from JSON (backward compatibility)
+  // Create from JSON (for local data)
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
       id: json['id'] ?? '',
@@ -69,17 +49,18 @@ class Note {
     );
   }
 
-  // Convert to Firestore map
-  Map<String, dynamic> toFirestore() {
+  // Convert to JSON (for local storage)
+  Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'content': content,
       'category': category,
       'imageUrl': imageUrl,
       'pdfUrl': pdfUrl,
       'priority': priority,
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': Timestamp.fromDate(updatedAt),
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
       'tags': tags,
       'isBookmarked': isBookmarked,
       'readingProgress': readingProgress,
