@@ -13,12 +13,13 @@
     <application
         android:name="${applicationName}"
         android:label="Sanitary Inspector Prep"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
 
-        <!-- CRITICAL: Flutter v2 embedding meta-data -->
+        <!-- CRITICAL: Enable Flutter v2 embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
