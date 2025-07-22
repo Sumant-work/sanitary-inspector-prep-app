@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Question {
   final String id;
   final String question;
@@ -27,24 +25,7 @@ class Question {
     this.isAnswered = false,
   });
 
-  // Create from Firestore document
-  factory Question.fromFirestore(Map<String, dynamic> data, String id) {
-    return Question(
-      id: id,
-      question: data['question'] ?? '',
-      options: List<String>.from(data['options'] ?? []),
-      correctAnswerIndex: data['correctAnswerIndex'] ?? 0,
-      explanation: data['explanation'] ?? '',
-      category: data['category'] ?? '',
-      difficulty: data['difficulty'] ?? 'Medium',
-      year: data['year'],
-      imageUrl: data['imageUrl'],
-      userAnswer: data['userAnswer'],
-      isAnswered: data['isAnswered'] ?? false,
-    );
-  }
-
-  // Create from JSON (backward compatibility)
+  // Create from JSON (for local data)
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
       id: json['id'] ?? '',
@@ -61,9 +42,10 @@ class Question {
     );
   }
 
-  // Convert to Firestore map
-  Map<String, dynamic> toFirestore() {
+  // Convert to JSON (for local storage)
+  Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'question': question,
       'options': options,
       'correctAnswerIndex': correctAnswerIndex,
