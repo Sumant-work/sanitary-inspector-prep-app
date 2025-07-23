@@ -1,18 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sanitary_inspector_prep_app">
     
+    <!-- Internet permission -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    
+    <!-- Storage permissions with Android 13+ compatibility -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    
+    <!-- Android 13+ media permissions -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="Sanitary Inspector Prep App"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        android:requestLegacyExternalStorage="true">
         
         <activity
             android:name=".MainActivity"
@@ -37,19 +44,14 @@
                 android:resource="@drawable/launch_background" />
         </activity>
 
-        <!-- V2 Embedding Metadata - This tells Flutter to use the new embedding -->
+        <!-- V2 Embedding Metadata -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
             
-        <!-- Disable multidex automatic verification -->
-        <meta-data
-            android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
-            android:value="true" />
-            
     </application>
     
-    <!-- Queries for compatibility with Android 11 -->
+    <!-- Android 11+ queries -->
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
